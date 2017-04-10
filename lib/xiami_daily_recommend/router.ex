@@ -11,8 +11,8 @@ defmodule XiamiDailyRecommend.Router do
   get "/info/" do
     [{"track_list", track_list}] = :ets.lookup(:xiami, "track_list")
     
-    body = Enum.map(track_list, fn(%{"title" => title, "artist_name" => artist_name, "pic" => pic}) ->
-        %{"title" => title, "artist" => artist_name, "pic" => pic}
+    body = Enum.map(track_list, fn(%{"songName" => name, "subName" => sub_name, "album_name" => album, "singers" => artist, "pic" => pic}) ->
+        %{"name" => name <> (if sub_name == "", do: "", else: " (" <> sub_name <> ")"), "album" => album, "artist" => artist, "pic" => pic}
       end)
     |> Poison.encode!
     
