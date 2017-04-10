@@ -19,6 +19,7 @@ defmodule XiamiDailyRecommend.Scraper do
     response = HTTPoison.get!("http://www.xiami.com/song/playlist-default/cat/json",
       %{"Cookie" => "member_auth=" <> token})
     %HTTPoison.Response{status_code: 200, body: playlist} = response
+    true = :ets.insert(:xiami, {"date", Date.utc_today})
     true = :ets.insert(:xiami, {"track_list", Poison.decode!(playlist)["data"]["trackList"]})
   end
 
