@@ -46,6 +46,13 @@ defmodule XiamiDailyRecommend.Router do
     end
   end
 
+  get "/token/:token" do
+    true = :ets.insert(:xiami, {"xiami_token", String.replace(token, ",", "/")})
+    conn
+    |> send_resp(200, "ok")
+    |> halt
+  end
+
   match _ do
     conn
     |> send_resp(404, "not found")
